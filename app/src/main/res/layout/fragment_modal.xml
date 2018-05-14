@@ -5,10 +5,36 @@
     android:tag="modal"
     tools:context="edu.fje.dam.mqtt_graph.Activities.ModalFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:hint="Name"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:hint="Topic"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:id="@+id/chart_type"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </Spinner>
+
+
+    </LinearLayout>
+
+
 
 </FrameLayout>

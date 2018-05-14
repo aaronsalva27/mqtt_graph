@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -44,7 +45,7 @@ public class RoomActivity extends AppCompatActivity {
 
                         @Override
                         public void onConfirm(@Nullable Bundle result) {
-
+                            Log.d("MODAL","New chart");
                         }
                     })
                     .setOnDiscardListener(new FullScreenDialogFragment.OnDiscardListener() {

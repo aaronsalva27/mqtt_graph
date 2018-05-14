@@ -6,8 +6,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:icon="@drawable/ic_menu_send"
+            android:title="Room1" />
+        <item
+            android:id="@+id/nav_new"
+            android:icon="@drawable/ic_action_add_circle_outline"
+            android:title="New room" />
     </group>
 
     <item android:title="Setttings">
