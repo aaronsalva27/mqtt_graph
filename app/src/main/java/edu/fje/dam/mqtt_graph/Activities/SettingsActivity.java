@@ -1,7 +1,9 @@
-package edu.fje.dam.mqtt_graph;
+package edu.fje.dam.mqtt_graph.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import edu.fje.dam.mqtt_graph.R;
 
 public class SettingsActivity extends AppCompatActivity {
     private final String TITLE= "Settings";

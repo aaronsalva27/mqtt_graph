@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.fje.dam.mqtt_graph.SplashScreen">
+    tools:context="edu.fje.dam.mqtt_graph.Activities.SplashScreen">
 
 
 

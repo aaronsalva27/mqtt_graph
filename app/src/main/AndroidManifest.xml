@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashScreen">
+        <activity android:name=".Activities.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,14 +17,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RoomActivity"
-            android:parentActivityName=".MenuActivity" />
+            android:name=".Activities.RoomActivity"
+            android:parentActivityName=".Activities.MenuActivity" />
         <activity
-            android:name=".MenuActivity"
+            android:name=".Activities.MenuActivity"
             android:label="@string/title_activity_drawe_activity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SettingsActivity"
-            android:parentActivityName=".MenuActivity"/>
+        <activity
+            android:name=".Activities.SettingsActivity"
+            android:parentActivityName=".Activities.MenuActivity" />
+        <activity android:name=".Activities.LoginActivity"></activity>
     </application>
 
 </manifest>

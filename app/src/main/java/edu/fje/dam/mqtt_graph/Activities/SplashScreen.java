@@ -1,4 +1,4 @@
-package edu.fje.dam.mqtt_graph;
+package edu.fje.dam.mqtt_graph.Activities;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -8,6 +8,8 @@ import android.view.Window;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import edu.fje.dam.mqtt_graph.R;
 
 public class SplashScreen extends AppCompatActivity {
     private final long SPLASH_SCREEN_DELAY = 3000;

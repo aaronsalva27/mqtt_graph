@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.fje.dam.mqtt_graph.Activities.LoginActivity">
+
+    <RelativeLayout
+        android:id="@+id/layout_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="72dp"
+            android:fontFamily="@font/robotoblackitalic"
+            android:text="Login"
+            android:textAlignment="center"
+            android:textSize="32dp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <ProgressBar
+            android:id="@+id/loginLoader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:progressTint="@color/color_accent"
+            android:layout_centerHorizontal="true"/>
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btnSingIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+
+            ></com.google.android.gms.common.SignInButton>
+    </RelativeLayout>
+
+
+
+
+</android.support.constraint.ConstraintLayout>
