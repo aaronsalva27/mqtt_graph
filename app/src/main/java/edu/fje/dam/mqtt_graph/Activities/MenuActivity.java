@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,6 +46,9 @@ public class MenuActivity extends AppCompatActivity
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
+
+    private Button revokeButton;
+    private Button logOutButton;
 
 
 
@@ -109,6 +113,8 @@ public class MenuActivity extends AppCompatActivity
                 }
             }
         };
+
+
     }
 
     private void setUserData(FirebaseUser user) {
@@ -209,8 +215,11 @@ public class MenuActivity extends AppCompatActivity
             startActivity(new Intent(this, RoomActivity.class));
         } else if (id == R.id.nav_manage) {
             startActivity(new Intent(this, SettingsActivity.class));
+        } else if(id == R.id.nav_exit) {
+            revoke(findViewById(R.id.drawer_layout));
+        } else if(id == R.id.nav_revoke) {
+            logOut(findViewById(R.id.drawer_layout));
         }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
