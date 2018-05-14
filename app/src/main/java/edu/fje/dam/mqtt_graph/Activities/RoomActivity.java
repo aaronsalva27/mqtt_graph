@@ -1,15 +1,17 @@
 package edu.fje.dam.mqtt_graph.Activities;
 
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
+
 import edu.fje.dam.mqtt_graph.R;
 
 public class RoomActivity extends AppCompatActivity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +37,27 @@ public class RoomActivity extends AppCompatActivity {
 
         if (id == R.id.mybutton) {
             // do something here
-            Snackbar.make(findViewById(R.id.room_layout), "New Widget", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            new FullScreenDialogFragment.Builder(RoomActivity.this)
+                    .setTitle("Chart")
+                    .setConfirmButton("Create")
+                    .setOnConfirmListener(new FullScreenDialogFragment.OnConfirmListener() {
+
+                        @Override
+                        public void onConfirm(@Nullable Bundle result) {
+
+                        }
+                    })
+                    .setOnDiscardListener(new FullScreenDialogFragment.OnDiscardListener() {
+                        @Override
+                        public void onDiscard() {
+
+                        }
+                    })
+                    .setContent(ModalFragment.class, null)
+                    .build()
+                    .show(getSupportFragmentManager(),"modal");
+
+
         }
         return super.onOptionsItemSelected(item);
     }
