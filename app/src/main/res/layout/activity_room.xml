@@ -7,20 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".Activities.RoomActivity">
 
-
-
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/your_placeholder"
         android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:padding="5dp"
         android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:text="ROOM1"
-            android:fontFamily="@font/robotoblackitalic"
-            android:textSize="40dp"
-            android:gravity="center"
-            android:layout_height="match_parent" />
-
-    </FrameLayout>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

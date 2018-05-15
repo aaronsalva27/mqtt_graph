@@ -22,7 +22,6 @@ import edu.fje.dam.mqtt_graph.R;
  */
 public class ModalFragment extends Fragment implements FullScreenDialogContent {
 
-    View v;
     private FullScreenDialogController dialogController;
 
     public ModalFragment() {
@@ -32,21 +31,13 @@ public class ModalFragment extends Fragment implements FullScreenDialogContent {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_modal, container, false);
-
-        return v;
+        return inflater.inflate(R.layout.fragment_modal, container, false);
     }
 
 
     @Override
     public void onDialogCreated(FullScreenDialogController dialogController) {
-
         this.dialogController = dialogController;
-
-
-
-
-
     }
 
     @Override
