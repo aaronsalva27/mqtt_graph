@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.fje.dam.mqtt_graph">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -29,8 +30,11 @@
         <activity
             android:name=".Activities.SettingsActivity"
             android:parentActivityName=".Activities.MenuActivity" />
-        <activity android:name=".Activities.LoginActivity"></activity>
+        <activity android:name=".Activities.LoginActivity" />
+
         <service android:name="org.eclipse.paho.android.service.MqttService" />
+
+        <activity android:name=".Activities.ChartSettingsActivity"></activity>
     </application>
 
 </manifest>

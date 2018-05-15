@@ -39,6 +39,10 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     compile 'com.github.zurche:plain-pie:v0.2.4'
 
+    compile 'me.rishabhkhanna:CustomToggle:1.0.0'
+
+
 }
+
 
 apply plugin: 'com.google.gms.google-services'
