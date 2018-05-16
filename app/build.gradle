@@ -43,6 +43,9 @@ dependencies {
 
     compile 'me.rishabhkhanna:CustomToggle:1.0.0'
 
+    compile 'org.apmem.tools:layouts:1.10@aar'
+
+
 
 }
 

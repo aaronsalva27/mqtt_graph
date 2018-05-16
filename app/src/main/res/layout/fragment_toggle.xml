@@ -1,18 +1,19 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="200dp"
-    android:layout_height="200dp"
-
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
     tools:context="edu.fje.dam.mqtt_graph.Charts.ToggleFragment">
 
     <android.support.v7.widget.CardView
+        android:layout_margin="5dp"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         card_view:cardBackgroundColor="@color/colorPrimary"
         android:foregroundGravity="center"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="175dp"
+        android:layout_height="175dp"
         card_view:cardCornerRadius="4dp">
 
         <me.rishabhkhanna.customtogglebutton.CustomToggleButton
@@ -31,4 +32,4 @@
 
     </android.support.v7.widget.CardView>
 
-</FrameLayout>
+</LinearLayout>
