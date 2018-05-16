@@ -59,7 +59,7 @@ public class RoomActivity extends AppCompatActivity {
                 Log.w("CHART",result);
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.your_placeholder,new GaugageFragment());
+                fragmentTransaction.add(R.id.your_placeholder,new ToggleFragment());
                 fragmentTransaction.commit();
             }
             if (resultCode == Activity.RESULT_CANCELED) {

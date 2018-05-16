@@ -105,8 +105,8 @@ public class MqttHelper {
 
     }
 
-    public void publishMessage(){
-        String publishMessage = "hola";
+    public void publishMessage(String data){
+        String publishMessage = data;
         String publishTopic = "SavaPahoPub";
 
         try {
