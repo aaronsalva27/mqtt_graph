@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,24 +15,39 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import edu.fje.dam.mqtt_graph.Api.ApiService;
+import edu.fje.dam.mqtt_graph.Api.ApiTest;
+import edu.fje.dam.mqtt_graph.Models.Test;
+import edu.fje.dam.mqtt_graph.Models.TestRepuesta;
+import edu.fje.dam.mqtt_graph.Models.User;
 import edu.fje.dam.mqtt_graph.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
@@ -46,10 +62,6 @@ public class MenuActivity extends AppCompatActivity
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
-
-    private Button revokeButton;
-    private Button logOutButton;
-
 
 
     @Override
@@ -68,8 +80,6 @@ public class MenuActivity extends AppCompatActivity
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
-
 
         /*this.overridePendingTransition(R.anim.left_to_right,
                 R.anim.right_to_left);*/
@@ -114,14 +124,85 @@ public class MenuActivity extends AppCompatActivity
             }
         };
 
+    }
 
+    private void createTest() {
+        ApiTest apiTest = ApiService.getClient(getApplicationContext()).create(ApiTest.class);
+        Map<String, String> map = new HashMap<>();
+        map.put("Authorization", "Bearer "+ String.valueOf(User.getUtilUser().getToken()));
+
+        Call<Test> nuevoTest = apiTest.createTest(map,"aaron",100);
+
+        nuevoTest.enqueue(new Callback<Test>() {
+            @Override
+            public void onResponse(Call<Test> call, Response<Test> response) {
+                if (response.isSuccessful()) {
+                    Test sava = response.body();
+                    Log.d("API",sava.toString());
+
+                } else {
+                    Log.e("API_ERROR", String.valueOf(response.errorBody()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Test> call, Throwable t) {
+                Log.e("API_ERROR", String.valueOf(t.getMessage()));
+            }
+        });
+    }
+
+    private void obtenerDatos() {
+        ApiTest apiService = ApiService.getClient(getApplicationContext()).create(ApiTest.class);
+        Map<String, String> map = new HashMap<>();
+        map.put("Authorization", "Bearer "+ String.valueOf(User.getUtilUser().getToken()));
+
+        Call<List<Test>> pokemonRepuestaCall = apiService.obtenerLista(map);
+
+        pokemonRepuestaCall.enqueue(new Callback<List<Test>>() {
+            @Override
+            public void onResponse(Call<List<Test>> call, Response<List<Test>> response) {
+                if (response.isSuccessful()) {
+                    Log.d("RESPONSE", response.body().get(0).toString());
+                    List<Test> tests = response.body();
+
+                    for (int i = 0; i < tests.size(); i++) {
+                        Log.d("API",tests.get(i).getName());
+                    }
+                } else {
+                    Log.e("API_ERROR", String.valueOf(response.body()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Test>> call, Throwable t) {
+                Log.e("API_ERROR", String.valueOf(t.getMessage()));
+            }
+        });
     }
 
     private void setUserData(FirebaseUser user) {
         userName.setText(user.getDisplayName());
         userEmail.setText(user.getEmail());
-
         Glide.with(this).load(user.getPhotoUrl()).into(userAvatar);
+
+        User.getUtilUser().set_id("sdfsdf");
+        User.getUtilUser().setName(user.getDisplayName());
+        User.getUtilUser().setEmail(user.getEmail());
+
+        user.getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+            @Override
+            public void onComplete(@NonNull Task<GetTokenResult> task) {
+                if (task.isSuccessful()) {
+                    String idToken = task.getResult().getToken();
+                    User.getUtilUser().setToken(idToken);
+
+                    obtenerDatos();
+                } else {
+                    Log.e("TOKEN_ERROR", String.valueOf(task.getException()));
+                }
+            }
+        });
     }
 
 
@@ -199,6 +280,7 @@ public class MenuActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            createTest();
             return true;
         }
 

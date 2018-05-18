@@ -7,24 +7,31 @@ import java.util.Date;
  */
 
 public class User {
+    private static User utilUser = null;
+
     private String _id;
+    private String token;
+    private String email;
     private String name;
-    private String password;
-    private Date created;
-    private Date update;
     private Room[] rooms;
 
     public User() {
 
     }
 
-    public User(String _id, String name, String password, Date created, Date update, Room[] rooms) {
+    public User(String _id, String name, String email, Room[] rooms) {
         this._id = _id;
         this.name = name;
-        this.password = password;
-        this.created = created;
-        this.update = update;
+        this.email = email;
         this.rooms = rooms;
+    }
+
+    public static User getUtilUser() {
+        if (utilUser == null) {
+            utilUser = new User();
+        }
+
+        return  utilUser;
     }
 
     public String get_id() {
@@ -43,28 +50,12 @@ public class User {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getUpdate() {
-        return update;
-    }
-
-    public void setUpdate(Date update) {
-        this.update = update;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Room[] getRooms() {
@@ -75,15 +66,21 @@ public class User {
         this.rooms = rooms;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     @Override
     public String toString() {
         return "User{" +
                 "_id='" + _id + '\'' +
+                "token='" + token + '\'' +
+                "email='" + email + '\'' +
                 ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", created=" + created +
-                ", update=" + update +
                 '}';
     }
 }
