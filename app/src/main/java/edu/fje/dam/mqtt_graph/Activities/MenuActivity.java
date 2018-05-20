@@ -1,10 +1,12 @@
 package edu.fje.dam.mqtt_graph.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -33,8 +35,13 @@ import com.google.firebase.auth.GetTokenResult;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,8 +52,15 @@ import edu.fje.dam.mqtt_graph.Models.Test;
 import edu.fje.dam.mqtt_graph.Models.TestRepuesta;
 import edu.fje.dam.mqtt_graph.Models.User;
 import edu.fje.dam.mqtt_graph.R;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Function;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.HttpException;
 import retrofit2.Response;
 
 public class MenuActivity extends AppCompatActivity
@@ -62,6 +76,8 @@ public class MenuActivity extends AppCompatActivity
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
+
+    private CompositeDisposable disposable = new CompositeDisposable();
 
 
     @Override
@@ -131,9 +147,29 @@ public class MenuActivity extends AppCompatActivity
         Map<String, String> map = new HashMap<>();
         map.put("Authorization", "Bearer "+ String.valueOf(User.getUtilUser().getToken()));
 
-        Call<Test> nuevoTest = apiTest.createTest(map,"aaron",100);
 
-        nuevoTest.enqueue(new Callback<Test>() {
+        //Call<Test> nuevoTest = apiTest.createTest(map,"aaron",100);
+
+        disposable.add(
+          apiTest.createTest(map, "joel",1000)
+                  .subscribeOn(Schedulers.io())
+                  .observeOn(AndroidSchedulers.mainThread())
+                  .subscribeWith(new DisposableSingleObserver<Test>(){
+
+                      @Override
+                      public void onSuccess(Test test) {
+                          Log.d("API",test.toString());
+                      }
+
+                      @Override
+                      public void onError(Throwable e) {
+                          Log.e("API_ERROR", String.valueOf(e.getMessage()));
+                          showError(e);
+                      }
+                  })
+        );
+
+        /*nuevoTest.enqueue(new Callback<Test>() {
             @Override
             public void onResponse(Call<Test> call, Response<Test> response) {
                 if (response.isSuccessful()) {
@@ -149,7 +185,7 @@ public class MenuActivity extends AppCompatActivity
             public void onFailure(Call<Test> call, Throwable t) {
                 Log.e("API_ERROR", String.valueOf(t.getMessage()));
             }
-        });
+        });*/
     }
 
     private void obtenerDatos() {
@@ -157,9 +193,39 @@ public class MenuActivity extends AppCompatActivity
         Map<String, String> map = new HashMap<>();
         map.put("Authorization", "Bearer "+ String.valueOf(User.getUtilUser().getToken()));
 
-        Call<List<Test>> pokemonRepuestaCall = apiService.obtenerLista(map);
+        // Call<List<Test>> pokemonRepuestaCall = apiService.obtenerLista(map);
 
-        pokemonRepuestaCall.enqueue(new Callback<List<Test>>() {
+        disposable.add(
+                apiService.obtenerLista(map)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .map(new Function<List<Test>, List<Test>>() {
+                            @Override
+                            public List<Test> apply(List<Test> notes) throws Exception {
+                                return notes;
+                            }
+                        })
+                        .subscribeWith(new DisposableSingleObserver<List<Test>>() {
+                            @Override
+                            public void onSuccess(List<Test> notes) {
+                                List<Test> tests = notes;
+
+                                for (int i = 0; i < tests.size(); i++) {
+                                    Log.d("API",tests.get(i).getName());
+                                }
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.e("API_ERROR", "onError: " + e.getMessage());
+                                showError(e);
+                            }
+                        })
+        );
+
+
+        /*pokemonRepuestaCall.enqueue(new Callback<List<Test>>() {
             @Override
             public void onResponse(Call<List<Test>> call, Response<List<Test>> response) {
                 if (response.isSuccessful()) {
@@ -178,7 +244,7 @@ public class MenuActivity extends AppCompatActivity
             public void onFailure(Call<List<Test>> call, Throwable t) {
                 Log.e("API_ERROR", String.valueOf(t.getMessage()));
             }
-        });
+        });*/
     }
 
     private void setUserData(FirebaseUser user) {
@@ -204,7 +270,6 @@ public class MenuActivity extends AppCompatActivity
             }
         });
     }
-
 
     @Override
     protected void onStart() {
@@ -320,5 +385,49 @@ public class MenuActivity extends AppCompatActivity
         if (firebaseAuthListener != null) {
             firebaseAuth.removeAuthStateListener(firebaseAuthListener);
         }
+    }
+
+    /**
+     * Showing a Snackbar with error message
+     * The error body will be in json format
+     * {"error": "Error message!"}
+     */
+    private void showError(Throwable e) {
+        String message = "";
+        try {
+            if (e instanceof IOException) {
+                message = "No internet connection!";
+            } else if (e instanceof HttpException) {
+                HttpException error = (HttpException) e;
+                String errorBody = error.response().errorBody().string();
+                JSONObject jObj = new JSONObject(errorBody);
+
+                message = jObj.getString("error");
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+        if (TextUtils.isEmpty(message)) {
+            message = "Unknown error occurred! Check LogCat.";
+        }
+
+        Snackbar snackbar = Snackbar
+                .make(findViewById(R.id.drawer_layout), message, Snackbar.LENGTH_LONG);
+
+        View sbView = snackbar.getView();
+        TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setTextColor(Color.YELLOW);
+        snackbar.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disposable.clear();
     }
 }
