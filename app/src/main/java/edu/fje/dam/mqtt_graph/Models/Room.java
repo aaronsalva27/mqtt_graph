@@ -1,28 +1,38 @@
 package edu.fje.dam.mqtt_graph.Models;
 
+import com.google.gson.annotations.Expose;
+
 import java.sql.Date;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by sava on 11/05/18.
  */
 
 public class Room {
+    private String _id;
     private String broker;
     private String name;
-    private Date created;
-    private Date updated;
-    private Chart[] charts;
+    @Expose
+    private List<Chart> charts;
 
     public Room() {
     }
 
-    public Room(String broker, String name, Date created, Date updated, Chart[] charts) {
-        this.broker = broker;
+    public Room(String _id,String broker, String name, List<Chart> charts) {
+        this._id = _id;
         this.name = name;
-        this.created = created;
-        this.updated = updated;
+        this.broker = broker;
         this.charts = charts;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getBroker() {
@@ -41,27 +51,11 @@ public class Room {
         this.name = name;
     }
 
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
-
-    public Chart[] getCharts() {
+    public List<Chart> getCharts() {
         return charts;
     }
 
-    public void setCharts(Chart[] charts) {
+    public void setCharts(List<Chart> charts) {
         this.charts = charts;
     }
 
@@ -70,9 +64,6 @@ public class Room {
         return "Room{" +
                 "broker='" + broker + '\'' +
                 ", name='" + name + '\'' +
-                ", created=" + created +
-                ", updated=" + updated +
-                ", charts=" + Arrays.toString(charts) +
                 '}';
     }
 }

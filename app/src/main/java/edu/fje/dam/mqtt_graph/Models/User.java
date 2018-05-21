@@ -1,6 +1,6 @@
 package edu.fje.dam.mqtt_graph.Models;
 
-import java.util.Date;
+import java.util.List;
 
 /**
  * Created by sava on 11/05/18.
@@ -9,18 +9,19 @@ import java.util.Date;
 public class User {
     private static User utilUser = null;
 
-    private String _id;
+
+    private String uid;
     private String token;
     private String email;
     private String name;
-    private Room[] rooms;
+    private List<Room> rooms;
 
     public User() {
 
     }
 
-    public User(String _id, String name, String email, Room[] rooms) {
-        this._id = _id;
+    public User(String uid, String name, String email, List<Room> rooms) {
+        this.uid = uid;
         this.name = name;
         this.email = email;
         this.rooms = rooms;
@@ -34,12 +35,12 @@ public class User {
         return  utilUser;
     }
 
-    public String get_id() {
-        return _id;
+    public String getUid() {
+        return uid;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getName() {
@@ -58,11 +59,11 @@ public class User {
         this.email = email;
     }
 
-    public Room[] getRooms() {
+    public List<Room> getRooms() {
         return rooms;
     }
 
-    public void setRooms(Room[] rooms) {
+    public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
     }
 
@@ -77,7 +78,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "_id='" + _id + '\'' +
+                "uid='" + uid + '\'' +
                 "token='" + token + '\'' +
                 "email='" + email + '\'' +
                 ", name='" + name + '\'' +

@@ -6,8 +6,10 @@ import java.util.Map;
 
 import edu.fje.dam.mqtt_graph.Models.Test;
 import edu.fje.dam.mqtt_graph.Models.TestRepuesta;
+import edu.fje.dam.mqtt_graph.Models.User;
 import io.reactivex.Single;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -20,16 +22,14 @@ import retrofit2.http.POST;
 
 public interface ApiTest {
 
-    @GET("test")
-    Single<List<Test>> obtenerLista(
+    @GET("user")
+    Single<List<User>> obtenerLista(
             @HeaderMap Map<String, String> headers
     );
 
-    @POST("test")
-    @FormUrlEncoded
-    Single<Test> createTest(
+    @POST("user")
+    Single<User> createTest(
             @HeaderMap Map<String, String> headers,
-            @Field("name") String name,
-            @Field("price") int price
+            @Body User user
     );
 }

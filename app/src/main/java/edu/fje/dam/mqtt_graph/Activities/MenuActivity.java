@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.SubMenu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -33,35 +34,30 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import edu.fje.dam.mqtt_graph.Api.ApiService;
 import edu.fje.dam.mqtt_graph.Api.ApiTest;
+import edu.fje.dam.mqtt_graph.Models.Chart;
+import edu.fje.dam.mqtt_graph.Models.Room;
 import edu.fje.dam.mqtt_graph.Models.Test;
-import edu.fje.dam.mqtt_graph.Models.TestRepuesta;
 import edu.fje.dam.mqtt_graph.Models.User;
 import edu.fje.dam.mqtt_graph.R;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.HttpException;
-import retrofit2.Response;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
@@ -121,6 +117,11 @@ public class MenuActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Menu m = navigationView.getMenu();
+        SubMenu menuGroup = m.addSubMenu("My menu group");
+        menuGroup.add("Foo");
+        menuGroup.add("Bar");
+
         View headerView = navigationView.getHeaderView(0);
 
         userName = (TextView) headerView.findViewById(R.id.userName);
@@ -150,15 +151,56 @@ public class MenuActivity extends AppCompatActivity
 
         //Call<Test> nuevoTest = apiTest.createTest(map,"aaron",100);
 
+        User u = new User();
+        u.setUid(User.getUtilUser().getUid());
+
+        Room r = new Room();
+        r.setBroker("broker");
+        r.setName("cocina");
+
+        Room r2 = new Room();
+        r2.setBroker("broker");
+        r2.setName("lavabo");
+
+        Chart c = new Chart();
+        c.setName("temperatura");
+        c.setType("gaugage");
+        c.setQos(1);
+        c.setTopic("statusTemp");
+
+        Chart c2 = new Chart();
+        c2.setName("humedad");
+        c2.setType("gaugage");
+        c2.setQos(1);
+        c2.setTopic("statusHumedad");
+
+        List<Chart> charts = new ArrayList<>();
+        charts.add(c);
+        charts.add(c2);
+
+        r.setCharts(charts);
+        r2.setCharts(charts);
+
+        List<Room> rooms = new ArrayList<>();
+        rooms.add(r);
+        rooms.add(r2);
+
+        u.setRooms(rooms);
+
+        Gson g = new Gson();
+
+        Log.d("USER",g.toJson(u));
+
+
         disposable.add(
-          apiTest.createTest(map, "joel",1000)
+          apiTest.createTest(map, u)
                   .subscribeOn(Schedulers.io())
                   .observeOn(AndroidSchedulers.mainThread())
-                  .subscribeWith(new DisposableSingleObserver<Test>(){
+                  .subscribeWith(new DisposableSingleObserver<User>(){
 
                       @Override
-                      public void onSuccess(Test test) {
-                          Log.d("API",test.toString());
+                      public void onSuccess(User user) {
+                          Log.d("API",user.toString());
                       }
 
                       @Override
@@ -199,19 +241,19 @@ public class MenuActivity extends AppCompatActivity
                 apiService.obtenerLista(map)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .map(new Function<List<Test>, List<Test>>() {
+                        .map(new Function<List<User>, List<User>>() {
                             @Override
-                            public List<Test> apply(List<Test> notes) throws Exception {
+                            public List<User> apply(List<User> notes) throws Exception {
                                 return notes;
                             }
                         })
-                        .subscribeWith(new DisposableSingleObserver<List<Test>>() {
+                        .subscribeWith(new DisposableSingleObserver<List<User>>() {
                             @Override
-                            public void onSuccess(List<Test> notes) {
-                                List<Test> tests = notes;
+                            public void onSuccess(List<User> notes) {
+                                List<User> tests = notes;
 
                                 for (int i = 0; i < tests.size(); i++) {
-                                    Log.d("API",tests.get(i).getName());
+                                    Log.d("CGET",tests.get(i).getRooms().get(0).getCharts().get(0).getTopic());
                                 }
 
                             }
@@ -252,7 +294,7 @@ public class MenuActivity extends AppCompatActivity
         userEmail.setText(user.getEmail());
         Glide.with(this).load(user.getPhotoUrl()).into(userAvatar);
 
-        User.getUtilUser().set_id("sdfsdf");
+        User.getUtilUser().setUid("sdfsdf");
         User.getUtilUser().setName(user.getDisplayName());
         User.getUtilUser().setEmail(user.getEmail());
 
@@ -357,6 +399,8 @@ public class MenuActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
+        Log.d("menu", String.valueOf(item.getTitle()));
 
         if (id == R.id.nav_camera) {
             startActivity(new Intent(this, RoomActivity.class));
