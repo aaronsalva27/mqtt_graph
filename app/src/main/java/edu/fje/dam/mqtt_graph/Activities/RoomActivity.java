@@ -18,12 +18,14 @@ import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
 
 import edu.fje.dam.mqtt_graph.Charts.GaugageFragment;
 import edu.fje.dam.mqtt_graph.Charts.ToggleFragment;
+import edu.fje.dam.mqtt_graph.Models.Room;
 import edu.fje.dam.mqtt_graph.R;
 
 public class RoomActivity extends AppCompatActivity {
     GaugageFragment gaug;
 
     private RecyclerView recyclerView;
+    private Room room;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,11 @@ public class RoomActivity extends AppCompatActivity {
         this.overridePendingTransition(R.anim.slide_in,
                 R.anim.slide_out);
 
+        Bundle b = this.getIntent().getExtras();
+        if (b != null)
+            room = b.getParcelable("ROOM_OBJECT");
+            setTitle(room.getName());
+            Log.d("ROOM",room.toString().toUpperCase());
        /* recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         GridLayoutManager layoutManager = new GridLayoutManager(this,1);
@@ -84,7 +91,7 @@ public class RoomActivity extends AppCompatActivity {
         if (id == R.id.mybutton) {
             Intent intent = new Intent(this, ChartSettingsActivity.class);
             startActivityForResult(intent,1);
-            
+
 
         }
         return super.onOptionsItemSelected(item);

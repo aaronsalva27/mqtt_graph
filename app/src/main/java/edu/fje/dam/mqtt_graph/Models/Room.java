@@ -1,5 +1,7 @@
 package edu.fje.dam.mqtt_graph.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.SubMenu;
 
 import com.google.gson.annotations.Expose;
@@ -12,7 +14,7 @@ import java.util.List;
  * Created by sava on 11/05/18.
  */
 
-public class Room {
+public class Room implements Parcelable {
     public static SubMenu subMenu;
 
     private String _id;
@@ -30,6 +32,24 @@ public class Room {
         this.broker = broker;
         this.charts = charts;
     }
+
+    protected Room(Parcel in) {
+        _id = in.readString();
+        broker = in.readString();
+        name = in.readString();
+    }
+
+    public static final Creator<Room> CREATOR = new Creator<Room>() {
+        @Override
+        public Room createFromParcel(Parcel in) {
+            return new Room(in);
+        }
+
+        @Override
+        public Room[] newArray(int size) {
+            return new Room[size];
+        }
+    };
 
     public String get_id() {
         return _id;
@@ -69,5 +89,17 @@ public class Room {
                 "broker='" + broker + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(_id);
+        parcel.writeString(broker);
+        parcel.writeString(name);
     }
 }

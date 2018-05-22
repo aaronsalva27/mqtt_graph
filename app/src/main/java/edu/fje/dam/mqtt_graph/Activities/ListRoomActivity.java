@@ -47,6 +47,12 @@ public class ListRoomActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d("ROOM", String.valueOf(i));
+                Intent intent = new Intent();
+                Bundle b = new Bundle();
+                b.putParcelable("ROOM_OBJECT", User.getUtilUser().getRooms().get(i));
+                intent.putExtras(b);
+                intent.setClass(getApplicationContext(), RoomActivity.class);
+                startActivity(intent);
             }
         });
 

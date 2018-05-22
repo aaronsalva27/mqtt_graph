@@ -22,7 +22,7 @@
         </activity>
         <activity
             android:name=".Activities.RoomActivity"
-            android:parentActivityName=".Activities.MenuActivity" />
+            android:parentActivityName=".Activities.ListRoomActivity" />
         <activity
             android:name=".Activities.MenuActivity"
             android:label="@string/title_activity_drawe_activity"
