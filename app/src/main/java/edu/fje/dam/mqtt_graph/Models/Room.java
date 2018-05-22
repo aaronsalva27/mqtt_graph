@@ -1,5 +1,7 @@
 package edu.fje.dam.mqtt_graph.Models;
 
+import android.view.SubMenu;
+
 import com.google.gson.annotations.Expose;
 
 import java.sql.Date;
@@ -11,6 +13,8 @@ import java.util.List;
  */
 
 public class Room {
+    public static SubMenu subMenu;
+
     private String _id;
     private String broker;
     private String name;

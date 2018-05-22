@@ -34,7 +34,12 @@
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
-        <activity android:name=".Activities.ChartSettingsActivity"></activity>
+        <activity android:name=".Activities.ChartSettingsActivity" />
+        <activity
+            android:name=".Activities.NewRoomActivity"
+            android:parentActivityName=".Activities.ListRoomActivity" />
+        <activity android:name=".Activities.ListRoomActivity"
+            android:parentActivityName=".Activities.MenuActivity"></activity>
     </application>
 
 </manifest>

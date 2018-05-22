@@ -15,6 +15,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * Created by sava on 17/05/18.
@@ -27,8 +28,15 @@ public interface ApiTest {
             @HeaderMap Map<String, String> headers
     );
 
-    @POST("user")
+    @GET("user/{id}")
+    Single<User> obtenerUser(
+            @Path("id") String userId,
+            @HeaderMap Map<String, String> headers
+    );
+
+    @POST("user/{id}")
     Single<User> createTest(
+            @Path("id") String userId,
             @HeaderMap Map<String, String> headers,
             @Body User user
     );

@@ -66,6 +66,8 @@ public class MenuActivity extends AppCompatActivity
     private TextView userName;
     private TextView userEmail;
 
+    private  NavigationView navigationView;
+
     private final String TITLE= "DASHBOARD";
 
     private GoogleApiClient googleApiClient;
@@ -114,13 +116,8 @@ public class MenuActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        Menu m = navigationView.getMenu();
-        SubMenu menuGroup = m.addSubMenu("My menu group");
-        menuGroup.add("Foo");
-        menuGroup.add("Bar");
 
         View headerView = navigationView.getHeaderView(0);
 
@@ -141,15 +138,13 @@ public class MenuActivity extends AppCompatActivity
             }
         };
 
+
     }
 
     private void createTest() {
         ApiTest apiTest = ApiService.getClient(getApplicationContext()).create(ApiTest.class);
         Map<String, String> map = new HashMap<>();
         map.put("Authorization", "Bearer "+ String.valueOf(User.getUtilUser().getToken()));
-
-
-        //Call<Test> nuevoTest = apiTest.createTest(map,"aaron",100);
 
         User u = new User();
         u.setUid(User.getUtilUser().getUid());
@@ -193,7 +188,7 @@ public class MenuActivity extends AppCompatActivity
 
 
         disposable.add(
-          apiTest.createTest(map, u)
+          apiTest.createTest(User.getUtilUser().getUid(),map, u)
                   .subscribeOn(Schedulers.io())
                   .observeOn(AndroidSchedulers.mainThread())
                   .subscribeWith(new DisposableSingleObserver<User>(){
@@ -211,23 +206,6 @@ public class MenuActivity extends AppCompatActivity
                   })
         );
 
-        /*nuevoTest.enqueue(new Callback<Test>() {
-            @Override
-            public void onResponse(Call<Test> call, Response<Test> response) {
-                if (response.isSuccessful()) {
-                    Test sava = response.body();
-                    Log.d("API",sava.toString());
-
-                } else {
-                    Log.e("API_ERROR", String.valueOf(response.errorBody()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Test> call, Throwable t) {
-                Log.e("API_ERROR", String.valueOf(t.getMessage()));
-            }
-        });*/
     }
 
     private void obtenerDatos() {
@@ -235,58 +213,32 @@ public class MenuActivity extends AppCompatActivity
         Map<String, String> map = new HashMap<>();
         map.put("Authorization", "Bearer "+ String.valueOf(User.getUtilUser().getToken()));
 
-        // Call<List<Test>> pokemonRepuestaCall = apiService.obtenerLista(map);
+        Log.d("UID",User.getUtilUser().getUid());
 
         disposable.add(
-                apiService.obtenerLista(map)
+                apiService.obtenerUser(User.getUtilUser().getUid(),map)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .map(new Function<List<User>, List<User>>() {
+                        .subscribeWith(new DisposableSingleObserver<User>() {
                             @Override
-                            public List<User> apply(List<User> notes) throws Exception {
-                                return notes;
-                            }
-                        })
-                        .subscribeWith(new DisposableSingleObserver<List<User>>() {
-                            @Override
-                            public void onSuccess(List<User> notes) {
-                                List<User> tests = notes;
-
-                                for (int i = 0; i < tests.size(); i++) {
-                                    Log.d("CGET",tests.get(i).getRooms().get(0).getCharts().get(0).getTopic());
-                                }
-
+                            public void onSuccess(User user) {
+                                // Log.d("CGET",user.getRooms().get(0).getCharts().get(0).getTopic());
+                                User.getUtilUser().setRooms(user.getRooms());
                             }
 
                             @Override
                             public void onError(Throwable e) {
                                 Log.e("API_ERROR", "onError: " + e.getMessage());
-                                showError(e);
+                                if(e.getMessage().contains("404")) {
+                                    Log.e("API_ERROR","No existe");
+                                    User.getUtilUser().setRooms(new ArrayList<Room>());
+                                }else {
+                                    showError(e);
+                                }
                             }
                         })
         );
 
-
-        /*pokemonRepuestaCall.enqueue(new Callback<List<Test>>() {
-            @Override
-            public void onResponse(Call<List<Test>> call, Response<List<Test>> response) {
-                if (response.isSuccessful()) {
-                    Log.d("RESPONSE", response.body().get(0).toString());
-                    List<Test> tests = response.body();
-
-                    for (int i = 0; i < tests.size(); i++) {
-                        Log.d("API",tests.get(i).getName());
-                    }
-                } else {
-                    Log.e("API_ERROR", String.valueOf(response.body()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Test>> call, Throwable t) {
-                Log.e("API_ERROR", String.valueOf(t.getMessage()));
-            }
-        });*/
     }
 
     private void setUserData(FirebaseUser user) {
@@ -294,7 +246,7 @@ public class MenuActivity extends AppCompatActivity
         userEmail.setText(user.getEmail());
         Glide.with(this).load(user.getPhotoUrl()).into(userAvatar);
 
-        User.getUtilUser().setUid("sdfsdf");
+        User.getUtilUser().setUid(user.getUid());
         User.getUtilUser().setName(user.getDisplayName());
         User.getUtilUser().setEmail(user.getEmail());
 
@@ -318,8 +270,15 @@ public class MenuActivity extends AppCompatActivity
         super.onStart();
 
         firebaseAuth.addAuthStateListener(firebaseAuthListener);
+        Log.d("START","START");
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // obtenerDatos();
+    }
 
     public void logOut(View view) {
         firebaseAuth.signOut();
@@ -403,8 +362,8 @@ public class MenuActivity extends AppCompatActivity
         Log.d("menu", String.valueOf(item.getTitle()));
 
         if (id == R.id.nav_camera) {
-            startActivity(new Intent(this, RoomActivity.class));
-        } else if (id == R.id.nav_manage) {
+            startActivity(new Intent(this, ListRoomActivity.class));
+        }else if (id == R.id.nav_manage) {
             startActivity(new Intent(this, SettingsActivity.class));
         } else if(id == R.id.nav_exit) {
             revoke(findViewById(R.id.drawer_layout));
