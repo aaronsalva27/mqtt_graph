@@ -84,34 +84,7 @@ public class RoomActivity extends AppCompatActivity {
         if (id == R.id.mybutton) {
             Intent intent = new Intent(this, ChartSettingsActivity.class);
             startActivityForResult(intent,1);
-            // startActivity(intent);
-            // do something here
-            /*new FullScreenDialogFragment.Builder(RoomActivity.this)
-                    .setTitle("Chart")
-                    .setConfirmButton("Create")
-                    .setOnConfirmListener(new FullScreenDialogFragment.OnConfirmListener() {
-
-                        @Override
-                        public void onConfirm(@Nullable Bundle result) {
-                            Log.d("MODAL","New chart");
-                            // gaug = new GaugageFragment();
-
-                            FragmentManager fragmentManager = getFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.add(R.id.your_placeholder,new GaugageFragment());
-                            fragmentTransaction.commit();
-                        }
-                    })
-                    .setOnDiscardListener(new FullScreenDialogFragment.OnDiscardListener() {
-                        @Override
-                        public void onDiscard() {
-
-                        }
-                    })
-                    .setContent(ModalFragment.class, null)
-                    .build()
-                    .show(getSupportFragmentManager(),"modal");
-                    */
+            
 
         }
         return super.onOptionsItemSelected(item);

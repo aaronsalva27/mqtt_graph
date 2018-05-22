@@ -1,14 +1,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    <TextView
-        android:id="@+id/roomName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name" />
+    android:orientation="vertical"
+
+
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/roomName"
+            android:textSize="20dp"
+            android:fontFamily="@font/robotolight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lavabo" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Broker: "
+            android:fontFamily="@font/robotoblack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/roomBroker"
+
+        android:fontFamily="@font/robotolight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="HomeTown" />
+        android:text="http:binefa.popotoma:1888" />
+    </LinearLayout>
 </LinearLayout>
