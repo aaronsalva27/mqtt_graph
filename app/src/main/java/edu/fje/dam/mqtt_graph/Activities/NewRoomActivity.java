@@ -142,7 +142,7 @@ public class NewRoomActivity extends AppCompatActivity {
         }
 
         Snackbar snackbar = Snackbar
-                .make(findViewById(R.id.drawer_layout), message, Snackbar.LENGTH_LONG);
+                .make(findViewById(R.id.room_settings_layout), message, Snackbar.LENGTH_LONG);
 
         View sbView = snackbar.getView();
         TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);

@@ -20,9 +20,10 @@
 
         <az.plainpie.PieView
             android:id="@+id/pieView"
-            android:layout_width="175dp"
-            android:layout_height="175dp"
-            android:foregroundGravity="center_vertical"
+            android:layout_margin="17dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foregroundGravity="center_horizontal"
             plainpie:inner_pie_padding="30"
             plainpie:inner_text_visibility="true"
             plainpie:percentage="75"

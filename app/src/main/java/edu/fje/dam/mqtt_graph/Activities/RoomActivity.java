@@ -18,6 +18,7 @@ import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
 
 import edu.fje.dam.mqtt_graph.Charts.GaugageFragment;
 import edu.fje.dam.mqtt_graph.Charts.ToggleFragment;
+import edu.fje.dam.mqtt_graph.Models.Chart;
 import edu.fje.dam.mqtt_graph.Models.Room;
 import edu.fje.dam.mqtt_graph.R;
 
@@ -26,6 +27,7 @@ public class RoomActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private Room room;
+    private Chart auxChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +42,6 @@ public class RoomActivity extends AppCompatActivity {
             room = b.getParcelable("ROOM_OBJECT");
             setTitle(room.getName());
             Log.d("ROOM",room.toString().toUpperCase());
-       /* recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        GridLayoutManager layoutManager = new GridLayoutManager(this,1);
-        recyclerView.setLayoutManager(layoutManager);
-*/
-
-
 
     }
 
@@ -70,18 +65,21 @@ public class RoomActivity extends AppCompatActivity {
 
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                String result=data.getStringExtra("SETTINGS_ACTIVITY");
-                Log.w("CHART",result);
-                FragmentManager fragmentManager = getFragmentManager();
+                Bundle b = data.getExtras();
+                if (b != null)
+                    auxChart = data.getParcelableExtra("CHART_OBJECT");
+                    Log.d("ROOM",auxChart.toString().toUpperCase());
+
+                /*FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.add(R.id.your_placeholder,new ToggleFragment());
-                fragmentTransaction.commit();
+                fragmentTransaction.commit();*/
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
+
             }
         }
-    }//
+    }
 
     // handle button activities
     @Override
@@ -90,6 +88,7 @@ public class RoomActivity extends AppCompatActivity {
 
         if (id == R.id.mybutton) {
             Intent intent = new Intent(this, ChartSettingsActivity.class);
+            intent.putExtra("CURRENT_ROOM",room.get_id());
             startActivityForResult(intent,1);
 
 

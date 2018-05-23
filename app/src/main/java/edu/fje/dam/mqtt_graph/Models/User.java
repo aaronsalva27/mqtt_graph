@@ -1,5 +1,6 @@
 package edu.fje.dam.mqtt_graph.Models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,13 +9,14 @@ import java.util.List;
 
 public class User {
     private static User utilUser = null;
+    private static String utilToken;
 
 
     private String uid;
     private String token;
     private String email;
     private String name;
-    private List<Room> rooms;
+    private List<Room> rooms = new ArrayList<Room>();
 
     public User() {
 
@@ -68,11 +70,11 @@ public class User {
     }
 
     public String getToken() {
-        return token;
+        return utilToken;
     }
 
     public void setToken(String token) {
-        this.token = token;
+        this.utilToken = token;
     }
 
     @Override

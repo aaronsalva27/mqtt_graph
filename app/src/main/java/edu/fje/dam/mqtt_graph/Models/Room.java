@@ -7,6 +7,7 @@ import android.view.SubMenu;
 import com.google.gson.annotations.Expose;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class Room implements Parcelable {
     private String broker;
     private String name;
     @Expose
-    private List<Chart> charts;
+    private List<Chart> charts = new ArrayList<Chart>();
 
     public Room() {
     }

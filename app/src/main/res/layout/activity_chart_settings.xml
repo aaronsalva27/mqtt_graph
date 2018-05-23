@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@id/chart_settings_layout"
     tools:context="edu.fje.dam.mqtt_graph.Activities.ChartSettingsActivity">
 
 
@@ -16,12 +17,14 @@
         android:layout_height="match_parent">
 
         <EditText
+            android:id="@+id/chart_name"
             android:layout_marginTop="50dp"
             android:layout_width="match_parent"
             android:hint="Name"
             android:layout_height="wrap_content" />
 
         <EditText
+            android:id="@+id/chart_topic"
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:hint="Topic"
@@ -31,10 +34,12 @@
             android:id="@+id/chart_type"
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
+            android:entries="@array/chart_array"
             android:layout_height="wrap_content">
         </Spinner>
 
         <Button
+            android:layout_marginTop="16dp"
             android:id="@+id/btnCreate"
             android:text="Create"
             android:layout_width="match_parent"
@@ -43,6 +48,14 @@
             android:id="@+id/btnCancel"
             android:text="Cancel"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ProgressBar
+            android:visibility="gone"
+            android:layout_marginTop="50dp"
+            android:id="@+id/loaderChart"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_height="wrap_content" />
 
 
