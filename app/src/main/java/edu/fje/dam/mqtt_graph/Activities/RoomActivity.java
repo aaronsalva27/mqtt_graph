@@ -58,12 +58,12 @@ public class RoomActivity extends AppCompatActivity {
 
         switch (c.getType()) {
             case "Pie":
-                fragment = GaugageFragment.newInstance(room.getBroker(), c.getTopic() , "-","savaClien");
+                fragment = GaugageFragment.newInstance(room.getBroker(), c.getTopic() , "-","savaClien"+System.currentTimeMillis());
                 fragmentTransaction.add(R.id.your_placeholder,fragment);
                 break;
 
             case "Toggle":
-                fragment = ToggleFragment.newInstance(room.getBroker(),  "-", c.getTopic(),"savaClien");
+                fragment = ToggleFragment.newInstance(room.getBroker(),  "-", c.getTopic(),"savaClien"+System.currentTimeMillis());
                 fragmentTransaction.add(R.id.your_placeholder,fragment);
                 break;
 

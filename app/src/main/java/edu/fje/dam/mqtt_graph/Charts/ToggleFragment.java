@@ -70,7 +70,7 @@ public class ToggleFragment extends Fragment {
                 else
                 {
                     Log.d("Toggle","UNCheck");
-                    mqttHelper.publishMessage("13H");
+                    mqttHelper.publishMessage("13L");
                 }
             }
         });
