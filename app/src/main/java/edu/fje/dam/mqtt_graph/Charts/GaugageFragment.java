@@ -23,6 +23,11 @@ import edu.fje.dam.mqtt_graph.R;
  */
 public class GaugageFragment extends Fragment {
     public MqttHelper mqttHelper;
+    private String server;
+    private String subTopic;
+    private String pubTopic;
+    private String clientId;
+
     PieView pieView;
 
     public GaugageFragment() {
@@ -35,17 +40,41 @@ public class GaugageFragment extends Fragment {
         super.onAttach(context);
     }
 
+    private void readBundle(Bundle arguments) {
+        if (arguments != null) {
+            server = arguments.getString("server");
+            subTopic = arguments.getString("subTopic");
+            pubTopic = arguments.getString("pubTopic");
+            clientId = arguments.getString("clientId");
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_gaugage, container, false);
 
         pieView = (PieView) v.findViewById(R.id.pieView);
+        readBundle(getArguments());
 
-        startMqtt(v);
+        startMqtt(v, server, subTopic, pubTopic,clientId);
 
         return v;
     }
+
+    public static GaugageFragment newInstance(String server, String subTopic, String pubTopic , String clientId) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("server", server);
+        bundle.putString("subTopic", subTopic);
+        bundle.putString("pubTopic", pubTopic);
+        bundle.putString("clientId", clientId);
+
+        GaugageFragment fragment = new GaugageFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
 
     @Override
     public void onStop() {
@@ -60,12 +89,12 @@ public class GaugageFragment extends Fragment {
         this.mqttHelper.close();
     }
 
-    private void startMqtt(View v){
-        mqttHelper = new MqttHelper(v.getContext());
+    private void startMqtt(View v,String server, String sub, String pub,String client){
+        mqttHelper = new MqttHelper(v.getContext(), server, sub, pub,client);
         mqttHelper.mqttAndroidClient.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
-                Log.w("Debug","Connected");
+                Log.w("Debug","Connected: "+s);
             }
 
             @Override
@@ -75,7 +104,7 @@ public class GaugageFragment extends Fragment {
 
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-                Log.w("Debug",mqttMessage.toString());
+                // Log.w("Debug",topic + " " + mqttMessage.toString());
                 pieView.setPercentage(Float.valueOf(mqttMessage.toString()));
             }
 

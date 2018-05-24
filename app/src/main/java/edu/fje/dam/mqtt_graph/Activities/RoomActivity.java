@@ -1,20 +1,15 @@
 package edu.fje.dam.mqtt_graph.Activities;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
 
 import edu.fje.dam.mqtt_graph.Charts.GaugageFragment;
 import edu.fje.dam.mqtt_graph.Charts.ToggleFragment;
@@ -23,9 +18,6 @@ import edu.fje.dam.mqtt_graph.Models.Room;
 import edu.fje.dam.mqtt_graph.R;
 
 public class RoomActivity extends AppCompatActivity {
-    GaugageFragment gaug;
-
-    private RecyclerView recyclerView;
     private Room room;
     private Chart auxChart;
 
@@ -38,10 +30,51 @@ public class RoomActivity extends AppCompatActivity {
                 R.anim.slide_out);
 
         Bundle b = this.getIntent().getExtras();
-        if (b != null)
+        if (b != null) {
             room = b.getParcelable("ROOM_OBJECT");
             setTitle(room.getName());
-            Log.d("ROOM",room.toString().toUpperCase());
+            Log.d("ROOM", room.toString().toUpperCase());
+        }
+
+        chartManager();
+    }
+
+    private void chartManager() {
+        Log.d("MANAGER","manager starting...");
+        for (int i = 0; i < room.getCharts().size(); i++) {
+            updateLayout(room.getCharts().get(i));
+        }
+
+    }
+
+    private void updateLayout(Chart c) {
+        Log.d("CHART", c.toString());
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        Fragment fragment = null;
+
+
+        switch (c.getType()) {
+            case "Pie":
+                fragment = GaugageFragment.newInstance(room.getBroker(), c.getTopic() , "-","savaClien");
+                fragmentTransaction.add(R.id.your_placeholder,fragment);
+                break;
+
+            case "Toggle":
+                fragment = ToggleFragment.newInstance(room.getBroker(),  "-", c.getTopic(),"savaClien");
+                fragmentTransaction.add(R.id.your_placeholder,fragment);
+                break;
+
+            default:
+                Log.d("ERROR_LAYOUT","INCORRECT TYPE");
+
+        }
+
+
+
+        fragmentTransaction.commit();
 
     }
 
@@ -69,11 +102,7 @@ public class RoomActivity extends AppCompatActivity {
                 if (b != null)
                     auxChart = data.getParcelableExtra("CHART_OBJECT");
                     Log.d("ROOM",auxChart.toString().toUpperCase());
-
-                /*FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.your_placeholder,new ToggleFragment());
-                fragmentTransaction.commit();*/
+                    updateLayout(auxChart);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
 

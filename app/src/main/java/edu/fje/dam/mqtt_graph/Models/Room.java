@@ -38,15 +38,17 @@ public class Room implements Parcelable {
         _id = in.readString();
         broker = in.readString();
         name = in.readString();
+        in.readTypedList(charts, Chart.CREATOR);
     }
 
-    public static final Creator<Room> CREATOR = new Creator<Room>() {
-        @Override
+
+
+    public static final Parcelable.Creator<Room> CREATOR
+            = new Parcelable.Creator<Room>() {
         public Room createFromParcel(Parcel in) {
             return new Room(in);
         }
 
-        @Override
         public Room[] newArray(int size) {
             return new Room[size];
         }
@@ -89,6 +91,7 @@ public class Room implements Parcelable {
         return "Room{" +
                 "broker='" + broker + '\'' +
                 ", name='" + name + '\'' +
+                ", charts='" + getCharts().size() + '\'' +
                 '}';
     }
 
@@ -102,5 +105,6 @@ public class Room implements Parcelable {
         parcel.writeString(_id);
         parcel.writeString(broker);
         parcel.writeString(name);
+        parcel.writeTypedList(charts);
     }
 }

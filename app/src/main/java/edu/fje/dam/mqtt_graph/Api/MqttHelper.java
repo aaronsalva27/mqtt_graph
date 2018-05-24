@@ -16,15 +16,22 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 public class MqttHelper {
     public MqttAndroidClient mqttAndroidClient;
 
-    final String serverUri = "tcp://popotamo.binefa.cat:1888";
+    private String serverUri;
 
-    final String clientId = "ExampleAndroidClient";
-    final String subscriptionTopic = "savaTestPaho";
+    private String clientId;
+    private String subscriptionTopic;
+
+    private String publishTopic;
 
     final String username = "xxxxxxx";
     final String password = "yyyyyyy";
 
-    public MqttHelper(Context context){
+    public MqttHelper(Context context, String server, String sub, String pub, String client){
+        this.serverUri = server;
+        this.subscriptionTopic = sub;
+        this.clientId = client;
+        this.publishTopic = pub;
+
         mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
         mqttAndroidClient.setCallback(new MqttCallbackExtended() {
             @Override
@@ -107,7 +114,7 @@ public class MqttHelper {
 
     public void publishMessage(String data){
         String publishMessage = data;
-        String publishTopic = "SavaPahoPub";
+        // SavaPahoPub
 
         try {
             MqttMessage message = new MqttMessage();

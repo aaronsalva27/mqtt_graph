@@ -34,13 +34,14 @@ public class Chart implements Parcelable {
         qos = in.readInt();
     }
 
-    public static final Creator<Chart> CREATOR = new Creator<Chart>() {
-        @Override
+
+
+    public static final Parcelable.Creator<Chart> CREATOR
+            = new Parcelable.Creator<Chart>() {
         public Chart createFromParcel(Parcel in) {
             return new Chart(in);
         }
 
-        @Override
         public Chart[] newArray(int size) {
             return new Chart[size];
         }
