@@ -113,7 +113,7 @@ public class ListRoomActivity extends AppCompatActivity {
                 fillRooms();
             }
         } else if(requestCode == 2) {
-
+            fillRooms();
         }
     }
 }

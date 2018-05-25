@@ -59,14 +59,14 @@ public class UpdateRoomActivity extends AppCompatActivity {
 
         loaderRoomUpdate.setVisibility(View.GONE);
 
-        Intent intent = new Intent();
-        position = intent.getIntExtra("POS",-1);
+        Intent intent = getIntent();
+        position = intent.getIntExtra("POS", -1);
 
         Bundle b = this.getIntent().getExtras();
         if (b != null) {
             room = b.getParcelable("ROOM_OBJECT");
             setTitle(room.getName());
-            Log.d("ROOM", room.toString().toUpperCase());
+            Log.d("ROOM", room.toString().toUpperCase() + " -pos: " + position );
 
             etRoomNameUpdate.setText(room.getName());
             etRoomBrookerUpdate.setText(room.getBroker());
@@ -77,7 +77,7 @@ public class UpdateRoomActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 room.setName(String.valueOf(etRoomNameUpdate.getText()));
-                room.setName(String.valueOf(etRoomBrookerUpdate.getText()));
+                room.setBroker(String.valueOf(etRoomBrookerUpdate.getText()));
 
                 if (position != -1) {
                     User.getUtilUser().getRooms().set(position,room);
