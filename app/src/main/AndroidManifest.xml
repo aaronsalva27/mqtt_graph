@@ -38,8 +38,10 @@
         <activity
             android:name=".Activities.NewRoomActivity"
             android:parentActivityName=".Activities.ListRoomActivity" />
-        <activity android:name=".Activities.ListRoomActivity"
-            android:parentActivityName=".Activities.MenuActivity"></activity>
+        <activity
+            android:name=".Activities.ListRoomActivity"
+            android:parentActivityName=".Activities.MenuActivity" />
+        <activity android:name=".Activities.UpdateRoomActivity"></activity>
     </application>
 
 </manifest>

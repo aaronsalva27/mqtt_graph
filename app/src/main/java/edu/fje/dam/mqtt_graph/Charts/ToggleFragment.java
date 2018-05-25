@@ -21,11 +21,11 @@ import me.rishabhkhanna.customtogglebutton.CustomToggleButton;
  * A simple {@link Fragment} subclass.
  */
 public class ToggleFragment extends Fragment {
-    public static MqttHelper mqttHelper;
-    private static String server;
-    private static String subTopic;
-    private static String pubTopic;
-    private static String clientId;
+    public MqttHelper mqttHelper;
+    private String server;
+    private String subTopic;
+    private String pubTopic;
+    private String clientId;
 
     private CustomToggleButton toggleButton;
 

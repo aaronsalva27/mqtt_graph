@@ -54,8 +54,30 @@ public class ListRoomActivity extends AppCompatActivity {
                 intent.setClass(getApplicationContext(), RoomActivity.class);
                 startActivity(intent);
             }
+
         });
 
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+                                           int pos, long id) {
+                Log.v("long clicked","pos: " + pos);
+
+                goToUpdateActivity(User.getUtilUser().getRooms().get(pos), pos);
+
+                return true;
+            }
+        });
+
+    }
+
+    public void goToUpdateActivity(Room r,int pos) {
+        Intent intent = new Intent(this, UpdateRoomActivity.class);
+        Bundle b = new Bundle();
+        intent.putExtra("POS",pos);
+        b.putParcelable("ROOM_OBJECT", r);
+        intent.putExtras(b);
+        startActivityForResult(intent,2);
     }
 
     @Override
@@ -87,7 +109,11 @@ public class ListRoomActivity extends AppCompatActivity {
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
+                Log.w("ROOM_UPDATE", "Updated" );
+                fillRooms();
             }
+        } else if(requestCode == 2) {
+
         }
     }
 }
