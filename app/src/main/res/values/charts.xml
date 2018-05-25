@@ -3,5 +3,6 @@
     <string-array name="chart_array">
         <item>Toggle</item>
         <item>Pie</item>
+        <item>Slider</item>
     </string-array>
 </resources>

@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import edu.fje.dam.mqtt_graph.Charts.GaugageFragment;
+import edu.fje.dam.mqtt_graph.Charts.SliderFragment;
 import edu.fje.dam.mqtt_graph.Charts.ToggleFragment;
 import edu.fje.dam.mqtt_graph.Models.Chart;
 import edu.fje.dam.mqtt_graph.Models.Room;
@@ -66,6 +67,11 @@ public class RoomActivity extends AppCompatActivity {
                 fragment = ToggleFragment.newInstance(room.getBroker(),  "-", c.getTopic(),"savaClien"+System.currentTimeMillis());
                 fragmentTransaction.add(R.id.your_placeholder,fragment);
                 break;
+            case "Slider":
+                fragment = SliderFragment.newInstance(room.getBroker(),  "-", c.getTopic(),"savaClien"+System.currentTimeMillis());
+                fragmentTransaction.add(R.id.your_placeholder,fragment);
+                break;
+
 
             default:
                 Log.d("ERROR_LAYOUT","INCORRECT TYPE");
