@@ -39,6 +39,8 @@ public class ListRoomActivity extends AppCompatActivity {
         list = (ListView) findViewById(R.id.listRoom);
         list.invalidate();
 
+        setTitle("ROOMS");
+
         RoomListAdapter adapter = new RoomListAdapter(this, (ArrayList<Room>) User.getUtilUser().getRooms());
 
         list.setAdapter(adapter);
