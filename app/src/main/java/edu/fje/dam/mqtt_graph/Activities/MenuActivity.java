@@ -101,15 +101,6 @@ public class MenuActivity extends AppCompatActivity
         /*this.overridePendingTransition(R.anim.slide_out,
                 R.anim.slide_in);*/
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -331,13 +322,6 @@ public class MenuActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_activity, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -361,14 +345,10 @@ public class MenuActivity extends AppCompatActivity
 
         Log.d("menu", String.valueOf(item.getTitle()));
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_room) {
             startActivity(new Intent(this, ListRoomActivity.class));
-        }else if (id == R.id.nav_manage) {
-            startActivity(new Intent(this, SettingsActivity.class));
-        } else if(id == R.id.nav_exit) {
-            revoke(findViewById(R.id.drawer_layout));
         } else if(id == R.id.nav_revoke) {
-            logOut(findViewById(R.id.drawer_layout));
+            revoke(findViewById(R.id.drawer_layout));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -1,12 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    xmlns:plainpie="http://schemas.android.com/apk/res-auto"
-    tools:context="edu.fje.dam.mqtt_graph.Charts.GaugageFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context="edu.fje.dam.mqtt_graph.Charts.LinearFragment">
 
 
     <android.support.v7.widget.CardView
@@ -16,22 +13,21 @@
         android:layout_gravity="center_horizontal"
         card_view:cardBackgroundColor="@color/colorPrimary"
         android:foregroundGravity="center"
-        android:layout_width="190dp"
-        android:layout_height="190dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         card_view:cardCornerRadius="4dp">
 
-        <az.plainpie.PieView
-            android:id="@+id/pieView"
-            android:layout_margin="17dp"
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/linearChartFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:foregroundGravity="center_horizontal"
-            plainpie:inner_pie_padding="30"
-            plainpie:inner_text_visibility="true"
-            plainpie:percentage="75"
-            plainpie:percentage_size="50" />
+            android:layout_margin="17dp"
+            android:foregroundGravity="center_horizontal">
 
+        </com.github.mikephil.charting.charts.LineChart>
 
     </android.support.v7.widget.CardView>
+
+
 
 </LinearLayout>

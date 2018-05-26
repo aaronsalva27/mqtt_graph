@@ -5,7 +5,7 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_room"
             android:icon="@drawable/ic_menu_send"
             android:title="Rooms" />
     </group>
@@ -13,18 +13,9 @@
     <item android:title="Setttings">
         <menu>
             <item
-                android:id="@+id/nav_manage"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="Tools" />
-            <item
-                android:id="@+id/nav_exit"
-                android:icon="@drawable/ic_menu_slideshow"
-                android:title="Log Out" />
-
-            <item
                 android:id="@+id/nav_revoke"
                 android:icon="@drawable/ic_exit_to_app"
-                android:title="Revoke
+                android:title="Exit
 " />
         </menu>
     </item>

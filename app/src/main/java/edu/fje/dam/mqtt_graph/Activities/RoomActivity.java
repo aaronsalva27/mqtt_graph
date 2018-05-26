@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import edu.fje.dam.mqtt_graph.Charts.GaugageFragment;
+import edu.fje.dam.mqtt_graph.Charts.LinearFragment;
 import edu.fje.dam.mqtt_graph.Charts.SliderFragment;
 import edu.fje.dam.mqtt_graph.Charts.ToggleFragment;
 import edu.fje.dam.mqtt_graph.Models.Chart;
@@ -60,6 +61,10 @@ public class RoomActivity extends AppCompatActivity {
         switch (c.getType()) {
             case "Pie":
                 fragment = GaugageFragment.newInstance(room.getBroker(), c.getTopic() , "-","savaClien"+System.currentTimeMillis());
+                fragmentTransaction.add(R.id.your_placeholder,fragment);
+                break;
+            case "Line":
+                fragment = LinearFragment.newInstance(room.getBroker(), c.getTopic() , "-","savaClien"+System.currentTimeMillis());
                 fragmentTransaction.add(R.id.your_placeholder,fragment);
                 break;
 

@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <org.apmem.tools.layouts.FlowLayout
+            android:paddingTop="17dp"
             android:gravity="center"
             android:id="@+id/your_placeholder"
             android:layoutDirection="ltr"

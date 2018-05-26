@@ -4,5 +4,6 @@
         <item>Toggle</item>
         <item>Pie</item>
         <item>Slider</item>
+        <item>Line</item>
     </string-array>
 </resources>

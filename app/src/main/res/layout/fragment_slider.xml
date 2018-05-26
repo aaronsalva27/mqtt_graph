@@ -13,8 +13,8 @@
         android:layout_gravity="center_horizontal"
         card_view:cardBackgroundColor="@color/colorPrimary"
         android:foregroundGravity="center"
-        android:layout_width="175dp"
-        android:layout_height="175dp"
+        android:layout_width="190dp"
+        android:layout_height="190dp"
         card_view:cardCornerRadius="4dp">
 
 
