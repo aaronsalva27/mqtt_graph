@@ -10,19 +10,83 @@
 
 
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <TextView
+            android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/robotoblackitalic"
             android:gravity="center"
-            android:text="News Features"
+            android:text="Last Updates"
             android:textSize="40dp" />
 
-    </FrameLayout>
+        <android.support.v7.widget.CardView
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            app:cardBackgroundColor="@color/cardview_light_background"
+            app:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:text="News Features"
+                    android:textSize="20dp"
+                    android:fontFamily="@font/robotoblack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:fontFamily="@font/robotolight"
+                    android:textSize="14dp"
+                    android:text="Line chart added, try it!"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="5dp"
+            app:cardBackgroundColor="@color/cardview_light_background"
+            app:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:text="Info"
+                    android:textSize="20dp"
+                    android:fontFamily="@font/robotoblack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:fontFamily="@font/robotolight"
+                    android:textSize="14dp"
+                    android:text="V0.0.1 released"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

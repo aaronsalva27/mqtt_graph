@@ -5,6 +5,9 @@ import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,7 +29,7 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         getSupportActionBar().hide();
-
+        
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
