@@ -21,7 +21,7 @@ import retrofit2.http.Path;
  * Created by sava on 17/05/18.
  */
 
-public interface ApiTest {
+public interface ApiUser {
 
     @GET("user")
     Single<List<User>> obtenerLista(

@@ -13,20 +13,15 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import edu.fje.dam.mqtt_graph.Api.ApiService;
-import edu.fje.dam.mqtt_graph.Api.ApiTest;
-import edu.fje.dam.mqtt_graph.Models.Chart;
+import edu.fje.dam.mqtt_graph.Api.ApiUser;
 import edu.fje.dam.mqtt_graph.Models.Room;
 import edu.fje.dam.mqtt_graph.Models.User;
 import edu.fje.dam.mqtt_graph.R;
@@ -80,12 +75,12 @@ public class NewRoomActivity extends AppCompatActivity {
         btnRoomCreate.setVisibility(View.GONE);
         loaderRoom.setVisibility(View.VISIBLE);
 
-        ApiTest apiTest = ApiService.getClient(getApplicationContext()).create(ApiTest.class);
+        ApiUser apiUser = ApiService.getClient(getApplicationContext()).create(ApiUser.class);
         Map<String, String> map = new HashMap<>();
         map.put("Authorization", "Bearer "+ String.valueOf(User.getUtilUser().getToken()));
 
         disposable.add(
-            apiTest.createTest(User.getUtilUser().getUid(),map, User.getUtilUser())
+            apiUser.createTest(User.getUtilUser().getUid(),map, User.getUtilUser())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(new DisposableSingleObserver<User>(){
@@ -93,6 +88,7 @@ public class NewRoomActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(User user) {
                             Log.d("API",user.toString());
+                            User.getUtilUser().setRooms(user.getRooms());
                             btnRoomCreate.setVisibility(View.VISIBLE);
                             loaderRoom.setVisibility(View.GONE);
                             Intent intent = new Intent();

@@ -29,7 +29,7 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         getSupportActionBar().hide();
-        
+
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {

@@ -23,8 +23,8 @@ public class MqttHelper {
 
     private String publishTopic;
 
-    final String username = "xxxxxxx";
-    final String password = "yyyyyyy";
+    private String username = "xxxxxxx";
+    private String password = "yyyyyyy";
 
     public MqttHelper(Context context, String server, String sub, String pub, String client){
         this.serverUri = server;
@@ -128,7 +128,7 @@ public class MqttHelper {
     }
 
 
-    private void subscribeToTopic() {
+    public void subscribeToTopic() {
         try {
             mqttAndroidClient.subscribe(subscriptionTopic, 0, null, new IMqttActionListener() {
                 @Override

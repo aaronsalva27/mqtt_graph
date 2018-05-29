@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.SubMenu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,22 +36,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import edu.fje.dam.mqtt_graph.Api.ApiService;
-import edu.fje.dam.mqtt_graph.Api.ApiTest;
+import edu.fje.dam.mqtt_graph.Api.ApiUser;
 import edu.fje.dam.mqtt_graph.Models.Chart;
 import edu.fje.dam.mqtt_graph.Models.Room;
-import edu.fje.dam.mqtt_graph.Models.Test;
 import edu.fje.dam.mqtt_graph.Models.User;
 import edu.fje.dam.mqtt_graph.R;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.HttpException;
@@ -133,7 +127,7 @@ public class MenuActivity extends AppCompatActivity
     }
 
     private void createTest() {
-        ApiTest apiTest = ApiService.getClient(getApplicationContext()).create(ApiTest.class);
+        ApiUser apiUser = ApiService.getClient(getApplicationContext()).create(ApiUser.class);
         Map<String, String> map = new HashMap<>();
         map.put("Authorization", "Bearer "+ String.valueOf(User.getUtilUser().getToken()));
 
@@ -179,7 +173,7 @@ public class MenuActivity extends AppCompatActivity
 
 
         disposable.add(
-          apiTest.createTest(User.getUtilUser().getUid(),map, u)
+          apiUser.createTest(User.getUtilUser().getUid(),map, u)
                   .subscribeOn(Schedulers.io())
                   .observeOn(AndroidSchedulers.mainThread())
                   .subscribeWith(new DisposableSingleObserver<User>(){
@@ -200,7 +194,7 @@ public class MenuActivity extends AppCompatActivity
     }
 
     private void obtenerDatos() {
-        ApiTest apiService = ApiService.getClient(getApplicationContext()).create(ApiTest.class);
+        ApiUser apiService = ApiService.getClient(getApplicationContext()).create(ApiUser.class);
         Map<String, String> map = new HashMap<>();
         map.put("Authorization", "Bearer "+ String.valueOf(User.getUtilUser().getToken()));
 

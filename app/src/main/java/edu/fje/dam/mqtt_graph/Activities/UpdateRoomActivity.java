@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.fje.dam.mqtt_graph.Api.ApiService;
-import edu.fje.dam.mqtt_graph.Api.ApiTest;
+import edu.fje.dam.mqtt_graph.Api.ApiUser;
 import edu.fje.dam.mqtt_graph.Models.Room;
 import edu.fje.dam.mqtt_graph.Models.User;
 import edu.fje.dam.mqtt_graph.R;
@@ -106,12 +106,12 @@ public class UpdateRoomActivity extends AppCompatActivity {
         btnRoomDelete.setVisibility(View.GONE);
         loaderRoomUpdate.setVisibility(View.VISIBLE);
 
-        ApiTest apiTest = ApiService.getClient(getApplicationContext()).create(ApiTest.class);
+        ApiUser apiUser = ApiService.getClient(getApplicationContext()).create(ApiUser.class);
         Map<String, String> map = new HashMap<>();
         map.put("Authorization", "Bearer "+ String.valueOf(User.getUtilUser().getToken()));
 
         disposable.add(
-                apiTest.createTest(User.getUtilUser().getUid(),map, User.getUtilUser())
+                apiUser.createTest(User.getUtilUser().getUid(),map, User.getUtilUser())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new DisposableSingleObserver<User>(){

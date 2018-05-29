@@ -18,12 +18,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.fje.dam.mqtt_graph.Api.ApiService;
-import edu.fje.dam.mqtt_graph.Api.ApiTest;
+import edu.fje.dam.mqtt_graph.Api.ApiUser;
 import edu.fje.dam.mqtt_graph.Models.Chart;
 import edu.fje.dam.mqtt_graph.Models.User;
 import edu.fje.dam.mqtt_graph.R;
@@ -51,6 +50,8 @@ public class ChartSettingsActivity extends AppCompatActivity {
 
         final Intent intent = getIntent();
         currentRoomId = intent.getStringExtra("CURRENT_ROOM");
+
+        Log.d("NEW_CHART",currentRoomId);
 
 
         btnCreate = (Button) findViewById(R.id.btnCreate);
@@ -98,12 +99,12 @@ public class ChartSettingsActivity extends AppCompatActivity {
     }
 
     private void saveChart() {
-        ApiTest apiTest = ApiService.getClient(getApplicationContext()).create(ApiTest.class);
+        ApiUser apiUser = ApiService.getClient(getApplicationContext()).create(ApiUser.class);
         Map<String, String> map = new HashMap<>();
         map.put("Authorization", "Bearer "+ String.valueOf(User.getUtilUser().getToken()));
 
         disposable.add(
-                apiTest.createTest(User.getUtilUser().getUid(),map, User.getUtilUser())
+                apiUser.createTest(User.getUtilUser().getUid(),map, User.getUtilUser())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new DisposableSingleObserver<User>(){
